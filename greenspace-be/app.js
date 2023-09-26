@@ -4,8 +4,11 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const { PrismaClient } = require("./prisma/generated/client");
+const router = require("./routers");
 
 const app = express();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
@@ -34,7 +37,11 @@ app.use(function (req, res, next) {
 });
 
 app.use(morgan("combined"));
+router(app);
 
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
+
+  await prisma.$connect();
+  console.log("Connected to database");
 });
