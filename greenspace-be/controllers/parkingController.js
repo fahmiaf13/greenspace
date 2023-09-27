@@ -15,7 +15,7 @@ const listParkingSpot = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Gagal mengambil data", error });
+    res.status(500).json({ message: "Something is broken" });
   }
 };
 
@@ -33,10 +33,10 @@ const detailParkingSpot = async (req, res) => {
       return res.status(404).json({ message: "Parking spot not found" });
     }
 
-    res.json(parkingSpot);
+    res.json({ data: parkingSpot, message: "Success" });
   } catch (error) {
-    console.error("Error fetching parking spot details:", error);
-    res.status(500).json({ message: "Internal server error" });
+    console.error(error);
+    res.status(500).json({ message: "Something is broken" });
   }
 };
 
