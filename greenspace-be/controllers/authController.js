@@ -15,20 +15,20 @@ const loginAsUser = async (req, res) => {
     });
 
     if (!user) {
-      return res.status(401).json({ msg: "Email atau username salah", status: 401 });
+      return res.status(401).json({ message: "Incorrect email or password" });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ msg: "Email atau password salah", status: 401 });
+      return res.status(401).json({ message: "Incorrect password" });
     }
 
-    const token = __generateToken(user);
+    const generatedToken = __generateToken(user);
 
-    res.status(200).json({ data: user, token: token, status: 200, msg: "Success" });
+    res.status(200).json({ data: user, token: generatedToken, message: "Success" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Gagal masuk", status: 500 });
+    res.status(500).json({ message: "Something is broken" });
   }
 };
 
@@ -42,18 +42,18 @@ const loginAsOfficer = async (req, res) => {
     });
 
     if (!officer) {
-      return res.status(401).json({ msg: "Email atau username salah", status: 401 });
+      return res.status(401).json({ message: "Incorrect email or password" });
     }
     const passwordMatch = await bcrypt.compare(password, officer.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ msg: "Email atau password salah", status: 401 });
+      return res.status(401).json({ message: "Incorrect email or password" });
     }
-    const token = __generateToken(officer);
-    res.status(200).json({ data: officer, token: token, status: 200, msg: "Success" });
+    const generatedToken = __generateToken(officer);
+    res.status(200).json({ data: officer, token: generatedToken, msg: "Success" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ msg: "Gagal masuk", status: 500 });
+    res.status(500).json({ message: "Something is broken" });
   }
 };
 
@@ -69,7 +69,7 @@ const register = async (req, res) => {
       });
 
       if (existingUser) {
-        return res.status(400).json({ message: "Email atau username sudah terdaftar" });
+        return res.status(400).json({ message: "Email or username has been registered" });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -82,18 +82,19 @@ const register = async (req, res) => {
         },
       });
 
+      const resRegistration = {
+        username: user.username,
+        email: user.email,
+        role: user.role,
+      };
+
       res.status(201).json({
-        status: 201,
-        message: "Registrasi berhasil",
-        data: {
-          username: user.username,
-          email: user.email,
-          role: user.role,
-        },
+        message: "Registration successful",
+        data: resRegistration,
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Gagal mendaftar" });
+      res.status(500).json({ message: "Something is broken" });
     }
   } else if (req.body.role === "OFFICER") {
     try {
@@ -105,7 +106,7 @@ const register = async (req, res) => {
       });
 
       if (existingOfficer) {
-        return res.status(400).json({ message: "Email atau username sudah terdaftar" });
+        return res.status(400).json({ message: "Email or username has already been registered" });
       }
       const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -120,7 +121,7 @@ const register = async (req, res) => {
 
       res.status(201).json({
         status: 201,
-        message: "Registrasi berhasil",
+        message: "Registration successful",
         data: {
           username: user.username,
           email: user.email,
@@ -132,7 +133,7 @@ const register = async (req, res) => {
       res.status(500).json({ message: "Gagal mendaftar" });
     }
   } else {
-    res.json({ message: "Gagal mendaftar, role tidak valid" });
+    res.json({ message: "Invalid role, register is failed!" });
   }
 };
 
