@@ -133,6 +133,7 @@ exports.Prisma.ParkingSpotScalarFieldEnum = {
 exports.Prisma.ReservationScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  officerId: 'officerId',
   spotId: 'spotId',
   startTime: 'startTime',
   endTime: 'endTime',

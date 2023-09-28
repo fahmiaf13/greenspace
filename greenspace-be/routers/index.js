@@ -4,4 +4,5 @@ module.exports = (app) => {
   app.use("/parking", require("./parkingRoutes"));
   app.use("/users", require("./userRoutes"));
   app.use("/officers", require("./officerRoutes"));
+  app.use("/reserve", require("./reservationRoutes"));
 };
