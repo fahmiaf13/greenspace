@@ -1,15 +1,16 @@
 const { PrismaClient } = require("../prisma/generated/client");
 const prisma = new PrismaClient();
-
+const { format } = require("date-fns");
 const listParkingSpot = async (req, res) => {
   try {
     const response = await prisma.parkingSpot.findMany();
+    console.log(response);
     res.status(200).json({
       data: response
         .sort((a, b) => a.id - b.id)
         .map((item) => ({
           ...item,
-          dateTime: "-",
+          dateTime: item.dateTime ? format(item.dateTime, "dd-mm-yyyy") : "-",
         })),
       message: "Success",
     });
