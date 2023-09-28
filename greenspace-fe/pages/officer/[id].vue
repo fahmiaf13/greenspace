@@ -28,8 +28,13 @@ const fetchListReservations = async () => {
 };
 
 const reservationHandler = async (action: string, id: Number) => {
+  const payload = {
+    status: action,
+    reservationId: id,
+    officerId: route.params.id,
+  };
   try {
-    const response = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/verify-reservation`, { method: "PUT", body: { status: action, reservationId: id } });
+    const response = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/verify-reservation`, { method: "PUT", body: payload });
     return response;
   } catch (error) {
     console.log(error);
