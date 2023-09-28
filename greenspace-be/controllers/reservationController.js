@@ -51,13 +51,13 @@ const cancelReservation = async (req, res) => {
       return res.status(404).json({ error: "Reservation not found" });
     }
 
-    if (reservation.status === true) {
+    if (reservation.status !== "PENDING") {
       return res.status(400).json({ error: "Reservation already been canceled before" });
     }
 
     const canceledReservation = await prisma.reservation.update({
       where: { id: Number(id) },
-      data: { status: true },
+      data: { status: "CANCEL" },
     });
 
     await prisma.parkingSpot.update({
@@ -66,6 +66,7 @@ const cancelReservation = async (req, res) => {
     });
     res.status(201).json({ message: "Reservation has been canceled" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Something is broken" });
   }
 };
@@ -89,7 +90,7 @@ const listReservedParkingSpots = async (req, res) => {
 };
 
 const verifyReservation = async (req, res) => {
-  const { status, reservationId } = req.body;
+  const { status, reservationId, officerId } = req.body;
 
   try {
     const reservation = await prisma.reservation.findUnique({
@@ -102,7 +103,12 @@ const verifyReservation = async (req, res) => {
 
     const updatedReservation = await prisma.reservation.update({
       where: { id: Number(reservationId) },
-      data: { status },
+      data: { status: status, officerId: officerId },
+    });
+
+    await prisma.parkingSpot.update({
+      where: { id: Number(updatedReservation.spotId) },
+      data: { available: true },
     });
 
     res.json({ data: updatedReservation, message: "Sucessfully verified" });
