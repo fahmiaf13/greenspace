@@ -20,7 +20,7 @@ const fetchDetailOfficer = async () => {
 
 const fetchListReservations = async () => {
   try {
-    const response: Response<Reservation> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/list-reservation`, { method: "GET" });
+    const response: Response<Reservation[]> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/list-reservation`, { method: "GET" });
     reservationList.value = response.data;
   } catch (error) {
     console.log(error);
