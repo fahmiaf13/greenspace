@@ -23,7 +23,7 @@ const userProfile = async (req, res) => {
     });
 
     if (!userDetailProfile) {
-      return res.status(404).json({ error: "Pengguna tidak ditemukan." });
+      return res.status(404).json({ message: "User not found" });
     }
 
     const formattedReservations = userDetailProfile.reservations.map((reservation) => ({

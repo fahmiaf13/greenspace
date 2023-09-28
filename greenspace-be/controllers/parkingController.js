@@ -11,7 +11,7 @@ const listParkingSpot = async (req, res) => {
           ...item,
           dateTime: "-",
         })),
-      message: "success",
+      message: "Success",
     });
   } catch (error) {
     console.error(error);
