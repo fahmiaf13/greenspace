@@ -139,7 +139,6 @@ exports.Prisma.ReservationScalarFieldEnum = {
   endTime: 'endTime',
   status: 'status',
   createdAt: 'createdAt',
-  location: 'location',
   updatedAt: 'updatedAt'
 };
 

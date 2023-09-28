@@ -4084,7 +4084,6 @@ export namespace Prisma {
     endTime: Date | null
     status: string | null
     createdAt: Date | null
-    location: string | null
     updatedAt: Date | null
   }
 
@@ -4097,7 +4096,6 @@ export namespace Prisma {
     endTime: Date | null
     status: string | null
     createdAt: Date | null
-    location: string | null
     updatedAt: Date | null
   }
 
@@ -4110,7 +4108,6 @@ export namespace Prisma {
     endTime: number
     status: number
     createdAt: number
-    location: number
     updatedAt: number
     _all: number
   }
@@ -4135,7 +4132,6 @@ export namespace Prisma {
     endTime?: true
     status?: true
     createdAt?: true
-    location?: true
     updatedAt?: true
   }
 
@@ -4148,7 +4144,6 @@ export namespace Prisma {
     endTime?: true
     status?: true
     createdAt?: true
-    location?: true
     updatedAt?: true
   }
 
@@ -4161,7 +4156,6 @@ export namespace Prisma {
     endTime?: true
     status?: true
     createdAt?: true
-    location?: true
     updatedAt?: true
     _all?: true
   }
@@ -4255,13 +4249,12 @@ export namespace Prisma {
   export type ReservationGroupByOutputType = {
     id: number
     userId: string
-    officerId: string
+    officerId: string | null
     spotId: number
     startTime: Date
     endTime: Date
     status: string
     createdAt: Date
-    location: string
     updatedAt: Date
     _count: ReservationCountAggregateOutputType | null
     _avg: ReservationAvgAggregateOutputType | null
@@ -4293,11 +4286,10 @@ export namespace Prisma {
     endTime?: boolean
     status?: boolean
     createdAt?: boolean
-    location?: boolean
     updatedAt?: boolean
     User?: boolean | UserDefaultArgs<ExtArgs>
     ParkingSpot?: boolean | ParkingSpotDefaultArgs<ExtArgs>
-    Officer?: boolean | OfficerDefaultArgs<ExtArgs>
+    Officers?: boolean | Reservation$OfficersArgs<ExtArgs>
   }, ExtArgs["result"]["reservation"]>
 
   export type ReservationSelectScalar = {
@@ -4309,14 +4301,13 @@ export namespace Prisma {
     endTime?: boolean
     status?: boolean
     createdAt?: boolean
-    location?: boolean
     updatedAt?: boolean
   }
 
   export type ReservationInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     User?: boolean | UserDefaultArgs<ExtArgs>
     ParkingSpot?: boolean | ParkingSpotDefaultArgs<ExtArgs>
-    Officer?: boolean | OfficerDefaultArgs<ExtArgs>
+    Officers?: boolean | Reservation$OfficersArgs<ExtArgs>
   }
 
 
@@ -4325,18 +4316,17 @@ export namespace Prisma {
     objects: {
       User: Prisma.$UserPayload<ExtArgs>
       ParkingSpot: Prisma.$ParkingSpotPayload<ExtArgs>
-      Officer: Prisma.$OfficerPayload<ExtArgs>
+      Officers: Prisma.$OfficerPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetResult<{
       id: number
       userId: string
-      officerId: string
+      officerId: string | null
       spotId: number
       startTime: Date
       endTime: Date
       status: string
       createdAt: Date
-      location: string
       updatedAt: Date
     }, ExtArgs["result"]["reservation"]>
     composites: {}
@@ -4707,7 +4697,7 @@ export namespace Prisma {
 
     ParkingSpot<T extends ParkingSpotDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ParkingSpotDefaultArgs<ExtArgs>>): Prisma__ParkingSpotClient<$Result.GetResult<Prisma.$ParkingSpotPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
-    Officer<T extends OfficerDefaultArgs<ExtArgs> = {}>(args?: Subset<T, OfficerDefaultArgs<ExtArgs>>): Prisma__OfficerClient<$Result.GetResult<Prisma.$OfficerPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+    Officers<T extends Reservation$OfficersArgs<ExtArgs> = {}>(args?: Subset<T, Reservation$OfficersArgs<ExtArgs>>): Prisma__OfficerClient<$Result.GetResult<Prisma.$OfficerPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4745,7 +4735,6 @@ export namespace Prisma {
     readonly endTime: FieldRef<"Reservation", 'DateTime'>
     readonly status: FieldRef<"Reservation", 'String'>
     readonly createdAt: FieldRef<"Reservation", 'DateTime'>
-    readonly location: FieldRef<"Reservation", 'String'>
     readonly updatedAt: FieldRef<"Reservation", 'DateTime'>
   }
     
@@ -5059,6 +5048,22 @@ export namespace Prisma {
 
 
   /**
+   * Reservation.Officers
+   */
+  export type Reservation$OfficersArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Officer
+     */
+    select?: OfficerSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: OfficerInclude<ExtArgs> | null
+    where?: OfficerWhereInput
+  }
+
+
+  /**
    * Reservation without action
    */
   export type ReservationDefaultArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -5129,7 +5134,6 @@ export namespace Prisma {
     endTime: 'endTime',
     status: 'status',
     createdAt: 'createdAt',
-    location: 'location',
     updatedAt: 'updatedAt'
   };
 
@@ -5399,33 +5403,31 @@ export namespace Prisma {
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     id?: IntFilter<"Reservation"> | number
     userId?: StringFilter<"Reservation"> | string
-    officerId?: StringFilter<"Reservation"> | string
+    officerId?: StringNullableFilter<"Reservation"> | string | null
     spotId?: IntFilter<"Reservation"> | number
     startTime?: DateTimeFilter<"Reservation"> | Date | string
     endTime?: DateTimeFilter<"Reservation"> | Date | string
     status?: StringFilter<"Reservation"> | string
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
-    location?: StringFilter<"Reservation"> | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
     ParkingSpot?: XOR<ParkingSpotRelationFilter, ParkingSpotWhereInput>
-    Officer?: XOR<OfficerRelationFilter, OfficerWhereInput>
+    Officers?: XOR<OfficerNullableRelationFilter, OfficerWhereInput> | null
   }
 
   export type ReservationOrderByWithRelationInput = {
     id?: SortOrder
     userId?: SortOrder
-    officerId?: SortOrder
+    officerId?: SortOrderInput | SortOrder
     spotId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-    location?: SortOrder
     updatedAt?: SortOrder
     User?: UserOrderByWithRelationInput
     ParkingSpot?: ParkingSpotOrderByWithRelationInput
-    Officer?: OfficerOrderByWithRelationInput
+    Officers?: OfficerOrderByWithRelationInput
   }
 
   export type ReservationWhereUniqueInput = Prisma.AtLeast<{
@@ -5434,29 +5436,27 @@ export namespace Prisma {
     OR?: ReservationWhereInput[]
     NOT?: ReservationWhereInput | ReservationWhereInput[]
     userId?: StringFilter<"Reservation"> | string
-    officerId?: StringFilter<"Reservation"> | string
+    officerId?: StringNullableFilter<"Reservation"> | string | null
     spotId?: IntFilter<"Reservation"> | number
     startTime?: DateTimeFilter<"Reservation"> | Date | string
     endTime?: DateTimeFilter<"Reservation"> | Date | string
     status?: StringFilter<"Reservation"> | string
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
-    location?: StringFilter<"Reservation"> | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
     User?: XOR<UserRelationFilter, UserWhereInput>
     ParkingSpot?: XOR<ParkingSpotRelationFilter, ParkingSpotWhereInput>
-    Officer?: XOR<OfficerRelationFilter, OfficerWhereInput>
+    Officers?: XOR<OfficerNullableRelationFilter, OfficerWhereInput> | null
   }, "id">
 
   export type ReservationOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
-    officerId?: SortOrder
+    officerId?: SortOrderInput | SortOrder
     spotId?: SortOrder
     startTime?: SortOrder
     endTime?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-    location?: SortOrder
     updatedAt?: SortOrder
     _count?: ReservationCountOrderByAggregateInput
     _avg?: ReservationAvgOrderByAggregateInput
@@ -5471,13 +5471,12 @@ export namespace Prisma {
     NOT?: ReservationScalarWhereWithAggregatesInput | ReservationScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Reservation"> | number
     userId?: StringWithAggregatesFilter<"Reservation"> | string
-    officerId?: StringWithAggregatesFilter<"Reservation"> | string
+    officerId?: StringNullableWithAggregatesFilter<"Reservation"> | string | null
     spotId?: IntWithAggregatesFilter<"Reservation"> | number
     startTime?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     endTime?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
     status?: StringWithAggregatesFilter<"Reservation"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
-    location?: StringWithAggregatesFilter<"Reservation"> | string
     updatedAt?: DateTimeWithAggregatesFilter<"Reservation"> | Date | string
   }
 
@@ -5547,7 +5546,7 @@ export namespace Prisma {
     password: string
     email: string
     role: string
-    reservations?: ReservationCreateNestedManyWithoutOfficerInput
+    reservations?: ReservationCreateNestedManyWithoutOfficersInput
   }
 
   export type OfficerUncheckedCreateInput = {
@@ -5556,7 +5555,7 @@ export namespace Prisma {
     password: string
     email: string
     role: string
-    reservations?: ReservationUncheckedCreateNestedManyWithoutOfficerInput
+    reservations?: ReservationUncheckedCreateNestedManyWithoutOfficersInput
   }
 
   export type OfficerUpdateInput = {
@@ -5565,7 +5564,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    reservations?: ReservationUpdateManyWithoutOfficerNestedInput
+    reservations?: ReservationUpdateManyWithoutOfficersNestedInput
   }
 
   export type OfficerUncheckedUpdateInput = {
@@ -5574,7 +5573,7 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     role?: StringFieldUpdateOperationsInput | string
-    reservations?: ReservationUncheckedUpdateManyWithoutOfficerNestedInput
+    reservations?: ReservationUncheckedUpdateManyWithoutOfficersNestedInput
   }
 
   export type OfficerCreateManyInput = {
@@ -5656,23 +5655,21 @@ export namespace Prisma {
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
     User: UserCreateNestedOneWithoutReservationsInput
     ParkingSpot: ParkingSpotCreateNestedOneWithoutReservationsInput
-    Officer: OfficerCreateNestedOneWithoutReservationsInput
+    Officers?: OfficerCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateInput = {
     id?: number
     userId: string
-    officerId: string
+    officerId?: string | null
     spotId: number
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
@@ -5681,36 +5678,33 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutReservationsNestedInput
     ParkingSpot?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
-    Officer?: OfficerUpdateOneRequiredWithoutReservationsNestedInput
+    Officers?: OfficerUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    officerId?: StringFieldUpdateOperationsInput | string
+    officerId?: NullableStringFieldUpdateOperationsInput | string | null
     spotId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationCreateManyInput = {
     id?: number
     userId: string
-    officerId: string
+    officerId?: string | null
     spotId: number
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
@@ -5719,20 +5713,18 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    officerId?: StringFieldUpdateOperationsInput | string
+    officerId?: NullableStringFieldUpdateOperationsInput | string | null
     spotId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -5980,9 +5972,9 @@ export namespace Prisma {
     isNot?: ParkingSpotWhereInput
   }
 
-  export type OfficerRelationFilter = {
-    is?: OfficerWhereInput
-    isNot?: OfficerWhereInput
+  export type OfficerNullableRelationFilter = {
+    is?: OfficerWhereInput | null
+    isNot?: OfficerWhereInput | null
   }
 
   export type ReservationCountOrderByAggregateInput = {
@@ -5994,7 +5986,6 @@ export namespace Prisma {
     endTime?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-    location?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -6012,7 +6003,6 @@ export namespace Prisma {
     endTime?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-    location?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -6025,7 +6015,6 @@ export namespace Prisma {
     endTime?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
-    location?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -6094,45 +6083,45 @@ export namespace Prisma {
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
-  export type ReservationCreateNestedManyWithoutOfficerInput = {
-    create?: XOR<ReservationCreateWithoutOfficerInput, ReservationUncheckedCreateWithoutOfficerInput> | ReservationCreateWithoutOfficerInput[] | ReservationUncheckedCreateWithoutOfficerInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutOfficerInput | ReservationCreateOrConnectWithoutOfficerInput[]
-    createMany?: ReservationCreateManyOfficerInputEnvelope
+  export type ReservationCreateNestedManyWithoutOfficersInput = {
+    create?: XOR<ReservationCreateWithoutOfficersInput, ReservationUncheckedCreateWithoutOfficersInput> | ReservationCreateWithoutOfficersInput[] | ReservationUncheckedCreateWithoutOfficersInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutOfficersInput | ReservationCreateOrConnectWithoutOfficersInput[]
+    createMany?: ReservationCreateManyOfficersInputEnvelope
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
-  export type ReservationUncheckedCreateNestedManyWithoutOfficerInput = {
-    create?: XOR<ReservationCreateWithoutOfficerInput, ReservationUncheckedCreateWithoutOfficerInput> | ReservationCreateWithoutOfficerInput[] | ReservationUncheckedCreateWithoutOfficerInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutOfficerInput | ReservationCreateOrConnectWithoutOfficerInput[]
-    createMany?: ReservationCreateManyOfficerInputEnvelope
+  export type ReservationUncheckedCreateNestedManyWithoutOfficersInput = {
+    create?: XOR<ReservationCreateWithoutOfficersInput, ReservationUncheckedCreateWithoutOfficersInput> | ReservationCreateWithoutOfficersInput[] | ReservationUncheckedCreateWithoutOfficersInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutOfficersInput | ReservationCreateOrConnectWithoutOfficersInput[]
+    createMany?: ReservationCreateManyOfficersInputEnvelope
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
   }
 
-  export type ReservationUpdateManyWithoutOfficerNestedInput = {
-    create?: XOR<ReservationCreateWithoutOfficerInput, ReservationUncheckedCreateWithoutOfficerInput> | ReservationCreateWithoutOfficerInput[] | ReservationUncheckedCreateWithoutOfficerInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutOfficerInput | ReservationCreateOrConnectWithoutOfficerInput[]
-    upsert?: ReservationUpsertWithWhereUniqueWithoutOfficerInput | ReservationUpsertWithWhereUniqueWithoutOfficerInput[]
-    createMany?: ReservationCreateManyOfficerInputEnvelope
+  export type ReservationUpdateManyWithoutOfficersNestedInput = {
+    create?: XOR<ReservationCreateWithoutOfficersInput, ReservationUncheckedCreateWithoutOfficersInput> | ReservationCreateWithoutOfficersInput[] | ReservationUncheckedCreateWithoutOfficersInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutOfficersInput | ReservationCreateOrConnectWithoutOfficersInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutOfficersInput | ReservationUpsertWithWhereUniqueWithoutOfficersInput[]
+    createMany?: ReservationCreateManyOfficersInputEnvelope
     set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
     disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
     delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    update?: ReservationUpdateWithWhereUniqueWithoutOfficerInput | ReservationUpdateWithWhereUniqueWithoutOfficerInput[]
-    updateMany?: ReservationUpdateManyWithWhereWithoutOfficerInput | ReservationUpdateManyWithWhereWithoutOfficerInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutOfficersInput | ReservationUpdateWithWhereUniqueWithoutOfficersInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutOfficersInput | ReservationUpdateManyWithWhereWithoutOfficersInput[]
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
-  export type ReservationUncheckedUpdateManyWithoutOfficerNestedInput = {
-    create?: XOR<ReservationCreateWithoutOfficerInput, ReservationUncheckedCreateWithoutOfficerInput> | ReservationCreateWithoutOfficerInput[] | ReservationUncheckedCreateWithoutOfficerInput[]
-    connectOrCreate?: ReservationCreateOrConnectWithoutOfficerInput | ReservationCreateOrConnectWithoutOfficerInput[]
-    upsert?: ReservationUpsertWithWhereUniqueWithoutOfficerInput | ReservationUpsertWithWhereUniqueWithoutOfficerInput[]
-    createMany?: ReservationCreateManyOfficerInputEnvelope
+  export type ReservationUncheckedUpdateManyWithoutOfficersNestedInput = {
+    create?: XOR<ReservationCreateWithoutOfficersInput, ReservationUncheckedCreateWithoutOfficersInput> | ReservationCreateWithoutOfficersInput[] | ReservationUncheckedCreateWithoutOfficersInput[]
+    connectOrCreate?: ReservationCreateOrConnectWithoutOfficersInput | ReservationCreateOrConnectWithoutOfficersInput[]
+    upsert?: ReservationUpsertWithWhereUniqueWithoutOfficersInput | ReservationUpsertWithWhereUniqueWithoutOfficersInput[]
+    createMany?: ReservationCreateManyOfficersInputEnvelope
     set?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
     disconnect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
     delete?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
     connect?: ReservationWhereUniqueInput | ReservationWhereUniqueInput[]
-    update?: ReservationUpdateWithWhereUniqueWithoutOfficerInput | ReservationUpdateWithWhereUniqueWithoutOfficerInput[]
-    updateMany?: ReservationUpdateManyWithWhereWithoutOfficerInput | ReservationUpdateManyWithWhereWithoutOfficerInput[]
+    update?: ReservationUpdateWithWhereUniqueWithoutOfficersInput | ReservationUpdateWithWhereUniqueWithoutOfficersInput[]
+    updateMany?: ReservationUpdateManyWithWhereWithoutOfficersInput | ReservationUpdateManyWithWhereWithoutOfficersInput[]
     deleteMany?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
   }
 
@@ -6236,10 +6225,12 @@ export namespace Prisma {
     update?: XOR<XOR<ParkingSpotUpdateToOneWithWhereWithoutReservationsInput, ParkingSpotUpdateWithoutReservationsInput>, ParkingSpotUncheckedUpdateWithoutReservationsInput>
   }
 
-  export type OfficerUpdateOneRequiredWithoutReservationsNestedInput = {
+  export type OfficerUpdateOneWithoutReservationsNestedInput = {
     create?: XOR<OfficerCreateWithoutReservationsInput, OfficerUncheckedCreateWithoutReservationsInput>
     connectOrCreate?: OfficerCreateOrConnectWithoutReservationsInput
     upsert?: OfficerUpsertWithoutReservationsInput
+    disconnect?: OfficerWhereInput | boolean
+    delete?: OfficerWhereInput | boolean
     connect?: OfficerWhereUniqueInput
     update?: XOR<XOR<OfficerUpdateToOneWithWhereWithoutReservationsInput, OfficerUpdateWithoutReservationsInput>, OfficerUncheckedUpdateWithoutReservationsInput>
   }
@@ -6423,21 +6414,19 @@ export namespace Prisma {
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
     ParkingSpot: ParkingSpotCreateNestedOneWithoutReservationsInput
-    Officer: OfficerCreateNestedOneWithoutReservationsInput
+    Officers?: OfficerCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutUserInput = {
     id?: number
-    officerId: string
+    officerId?: string | null
     spotId: number
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
@@ -6473,28 +6462,26 @@ export namespace Prisma {
     NOT?: ReservationScalarWhereInput | ReservationScalarWhereInput[]
     id?: IntFilter<"Reservation"> | number
     userId?: StringFilter<"Reservation"> | string
-    officerId?: StringFilter<"Reservation"> | string
+    officerId?: StringNullableFilter<"Reservation"> | string | null
     spotId?: IntFilter<"Reservation"> | number
     startTime?: DateTimeFilter<"Reservation"> | Date | string
     endTime?: DateTimeFilter<"Reservation"> | Date | string
     status?: StringFilter<"Reservation"> | string
     createdAt?: DateTimeFilter<"Reservation"> | Date | string
-    location?: StringFilter<"Reservation"> | string
     updatedAt?: DateTimeFilter<"Reservation"> | Date | string
   }
 
-  export type ReservationCreateWithoutOfficerInput = {
+  export type ReservationCreateWithoutOfficersInput = {
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
     User: UserCreateNestedOneWithoutReservationsInput
     ParkingSpot: ParkingSpotCreateNestedOneWithoutReservationsInput
   }
 
-  export type ReservationUncheckedCreateWithoutOfficerInput = {
+  export type ReservationUncheckedCreateWithoutOfficersInput = {
     id?: number
     userId: string
     spotId: number
@@ -6502,34 +6489,33 @@ export namespace Prisma {
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
-  export type ReservationCreateOrConnectWithoutOfficerInput = {
+  export type ReservationCreateOrConnectWithoutOfficersInput = {
     where: ReservationWhereUniqueInput
-    create: XOR<ReservationCreateWithoutOfficerInput, ReservationUncheckedCreateWithoutOfficerInput>
+    create: XOR<ReservationCreateWithoutOfficersInput, ReservationUncheckedCreateWithoutOfficersInput>
   }
 
-  export type ReservationCreateManyOfficerInputEnvelope = {
-    data: ReservationCreateManyOfficerInput | ReservationCreateManyOfficerInput[]
+  export type ReservationCreateManyOfficersInputEnvelope = {
+    data: ReservationCreateManyOfficersInput | ReservationCreateManyOfficersInput[]
     skipDuplicates?: boolean
   }
 
-  export type ReservationUpsertWithWhereUniqueWithoutOfficerInput = {
+  export type ReservationUpsertWithWhereUniqueWithoutOfficersInput = {
     where: ReservationWhereUniqueInput
-    update: XOR<ReservationUpdateWithoutOfficerInput, ReservationUncheckedUpdateWithoutOfficerInput>
-    create: XOR<ReservationCreateWithoutOfficerInput, ReservationUncheckedCreateWithoutOfficerInput>
+    update: XOR<ReservationUpdateWithoutOfficersInput, ReservationUncheckedUpdateWithoutOfficersInput>
+    create: XOR<ReservationCreateWithoutOfficersInput, ReservationUncheckedCreateWithoutOfficersInput>
   }
 
-  export type ReservationUpdateWithWhereUniqueWithoutOfficerInput = {
+  export type ReservationUpdateWithWhereUniqueWithoutOfficersInput = {
     where: ReservationWhereUniqueInput
-    data: XOR<ReservationUpdateWithoutOfficerInput, ReservationUncheckedUpdateWithoutOfficerInput>
+    data: XOR<ReservationUpdateWithoutOfficersInput, ReservationUncheckedUpdateWithoutOfficersInput>
   }
 
-  export type ReservationUpdateManyWithWhereWithoutOfficerInput = {
+  export type ReservationUpdateManyWithWhereWithoutOfficersInput = {
     where: ReservationScalarWhereInput
-    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutOfficerInput>
+    data: XOR<ReservationUpdateManyMutationInput, ReservationUncheckedUpdateManyWithoutOfficersInput>
   }
 
   export type ReservationCreateWithoutParkingSpotInput = {
@@ -6537,21 +6523,19 @@ export namespace Prisma {
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
     User: UserCreateNestedOneWithoutReservationsInput
-    Officer: OfficerCreateNestedOneWithoutReservationsInput
+    Officers?: OfficerCreateNestedOneWithoutReservationsInput
   }
 
   export type ReservationUncheckedCreateWithoutParkingSpotInput = {
     id?: number
     userId: string
-    officerId: string
+    officerId?: string | null
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
@@ -6721,13 +6705,12 @@ export namespace Prisma {
 
   export type ReservationCreateManyUserInput = {
     id?: number
-    officerId: string
+    officerId?: string | null
     spotId: number
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
@@ -6736,37 +6719,34 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ParkingSpot?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
-    Officer?: OfficerUpdateOneRequiredWithoutReservationsNestedInput
+    Officers?: OfficerUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    officerId?: StringFieldUpdateOperationsInput | string
+    officerId?: NullableStringFieldUpdateOperationsInput | string | null
     spotId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutUserInput = {
     id?: IntFieldUpdateOperationsInput | number
-    officerId?: StringFieldUpdateOperationsInput | string
+    officerId?: NullableStringFieldUpdateOperationsInput | string | null
     spotId?: IntFieldUpdateOperationsInput | number
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservationCreateManyOfficerInput = {
+  export type ReservationCreateManyOfficersInput = {
     id?: number
     userId: string
     spotId: number
@@ -6774,22 +6754,20 @@ export namespace Prisma {
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
-  export type ReservationUpdateWithoutOfficerInput = {
+  export type ReservationUpdateWithoutOfficersInput = {
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutReservationsNestedInput
     ParkingSpot?: ParkingSpotUpdateOneRequiredWithoutReservationsNestedInput
   }
 
-  export type ReservationUncheckedUpdateWithoutOfficerInput = {
+  export type ReservationUncheckedUpdateWithoutOfficersInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     spotId?: IntFieldUpdateOperationsInput | number
@@ -6797,11 +6775,10 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ReservationUncheckedUpdateManyWithoutOfficerInput = {
+  export type ReservationUncheckedUpdateManyWithoutOfficersInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
     spotId?: IntFieldUpdateOperationsInput | number
@@ -6809,19 +6786,17 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationCreateManyParkingSpotInput = {
     id?: number
     userId: string
-    officerId: string
+    officerId?: string | null
     startTime: Date | string
     endTime: Date | string
     status: string
     createdAt?: Date | string
-    location: string
     updatedAt?: Date | string
   }
 
@@ -6830,33 +6805,30 @@ export namespace Prisma {
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutReservationsNestedInput
-    Officer?: OfficerUpdateOneRequiredWithoutReservationsNestedInput
+    Officers?: OfficerUpdateOneWithoutReservationsNestedInput
   }
 
   export type ReservationUncheckedUpdateWithoutParkingSpotInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    officerId?: StringFieldUpdateOperationsInput | string
+    officerId?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ReservationUncheckedUpdateManyWithoutParkingSpotInput = {
     id?: IntFieldUpdateOperationsInput | number
     userId?: StringFieldUpdateOperationsInput | string
-    officerId?: StringFieldUpdateOperationsInput | string
+    officerId?: NullableStringFieldUpdateOperationsInput | string | null
     startTime?: DateTimeFieldUpdateOperationsInput | Date | string
     endTime?: DateTimeFieldUpdateOperationsInput | Date | string
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    location?: StringFieldUpdateOperationsInput | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

@@ -11,7 +11,7 @@ datasource db {
 
 model User {
   id       String   @id @default(uuid())
-  username String   @unique @db.VarChar(20)
+  username String   @unique 
   password String 
   email    String   @unique
   role     String
@@ -20,7 +20,7 @@ model User {
 
 model Officer {
   id       String   @id @default(uuid())
-  username String   @unique @db.VarChar(20)
+  username String   @unique 
   password String
   email    String   @unique
   role     String
@@ -38,17 +38,16 @@ model ParkingSpot {
 model Reservation {
   id          Int       @id @default(autoincrement())
   userId      String
-  officerId   String
+  officerId   String?
   spotId      Int
   startTime   DateTime
   endTime     DateTime
   status      String    
-  createdAt   DateTime  @default(now())
-  location    String 
-  updatedAt   DateTime  @updatedAt
-  User        User      @relation(fields: [userId], references: [id])
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  User        User        @relation(fields: [userId], references: [id])
   ParkingSpot ParkingSpot @relation(fields: [spotId], references: [id])
-  Officer        Officer      @relation(fields: [officerId], references: [id])
+  Officers    Officer?     @relation(fields: [officerId], references: [id])
 }
 
 

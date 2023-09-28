@@ -7,7 +7,7 @@ const userProfile = async (req, res) => {
   try {
     const userDetailProfile = await prisma.user.findUnique({
       where: {
-        id: Number(id),
+        id,
       },
       include: {
         reservations: {

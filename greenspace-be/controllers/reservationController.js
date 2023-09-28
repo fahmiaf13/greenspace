@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 
 const reserveParkingSpot = async (req, res) => {
   const { userId, spotId, startTime, endTime } = req.body;
-
   try {
     const isAvailable = await prisma.parkingSpot.findFirst({
       where: {
@@ -26,13 +25,14 @@ const reserveParkingSpot = async (req, res) => {
       },
     });
 
-    await prisma.ParkingSpot.update({
+    await prisma.parkingSpot.update({
       where: { id: spotId },
       data: { available: false },
     });
 
     res.status(201).json({ data: reservation, message: "Reservation successfully added" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Something is broken" });
   }
 };
