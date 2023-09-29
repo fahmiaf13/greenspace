@@ -49,7 +49,7 @@ const userProfile = async (req, res) => {
     res.status(200).json({ data: resUserProfile, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something is broken", status: 500 });
+    res.status(500).json({ message: "Something is broken", status: 500, error });
   }
 };
 

@@ -28,7 +28,7 @@ const loginAsUser = async (req, res) => {
     res.status(200).json({ data: user, token: generatedToken, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something is broken", status: 500 });
+    res.status(500).json({ message: "Something is broken", status: 500, error });
   }
 };
 
@@ -50,10 +50,10 @@ const loginAsOfficer = async (req, res) => {
       return res.status(401).json({ message: "Incorrect email or password", status: 401 });
     }
     const generatedToken = __generateToken(officer);
-    res.status(200).json({ data: officer, token: generatedToken, msg: "Success", status: 200 });
+    res.status(200).json({ data: officer, token: generatedToken, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something is broken", status: 500 });
+    res.status(500).json({ message: "Something is broken", status: 500, error });
   }
 };
 
@@ -95,7 +95,7 @@ const register = async (req, res) => {
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Something is broken", status: 500 });
+      res.status(500).json({ message: "Something is broken", status: 500, error });
     }
   } else if (req.body.role === "OFFICER") {
     try {
@@ -131,7 +131,7 @@ const register = async (req, res) => {
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Something is broken", status: 500 });
+      res.status(500).json({ message: "Something is broken", status: 500, error });
     }
   } else {
     res.status(400).json({ message: "Invalid role, register is failed!", status: 400 });

@@ -22,7 +22,6 @@ const verifyRole = (req, res, next) => {
 
 const verifyOfficer = (req, res, next) => {
   const authCookie = req.cookies.auth;
-
   if (authCookie) {
     try {
       const authData = JSON.parse(authCookie);

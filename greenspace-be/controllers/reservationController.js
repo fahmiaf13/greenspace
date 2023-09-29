@@ -9,7 +9,6 @@ const reserveParkingSpot = async (req, res) => {
   const parsedEndTime = parseISO(endTime);
   const maxReservationDate = addDays(parsedStartTime, 7);
 
-  req.session.reservation = { startTime: parsedStartTime, endTime: parsedEndTime, userId: userId, spotId: spotId };
   try {
     if (!isBefore(parsedEndTime, parsedStartTime) && !isAfter(parsedEndTime, maxReservationDate)) {
       const isAvailable = await prisma.parkingSpot.findFirst({
@@ -33,14 +32,9 @@ const reserveParkingSpot = async (req, res) => {
         },
       });
 
-      await prisma.parkingSpot.update({
-        where: { id: spotId },
-        data: { available: false, dateTime: parsedEndTime },
-      });
-
-      res.status(201).json({ data: reservation, message: "Reservation successfully added", status: 200 });
+      res.status(200).json({ data: reservation, message: "Reservation successfully added", status: 200 });
     } else {
-      res.status(404).json({ error: "Invalid date. Make sure the date is not before now and not later than 7 days from now.", status: 404 });
+      res.status(404).json({ message: "Invalid date. Make sure the date is not before now and not later than 7 days from now.", status: 404 });
     }
   } catch (error) {
     console.log(error);
@@ -59,11 +53,11 @@ const cancelReservation = async (req, res) => {
     });
 
     if (!reservation) {
-      return res.status(404).json({ error: "Reservation not found", status: 404 });
+      return res.status(404).json({ message: "Reservation not found", status: 404 });
     }
 
     if (reservation.status !== "PENDING") {
-      return res.status(400).json({ error: "Reservation already been canceled before", status: 400 });
+      return res.status(400).json({ message: "Reservation already been canceled before", status: 400 });
     }
 
     const canceledReservation = await prisma.reservation.update({
@@ -75,7 +69,7 @@ const cancelReservation = async (req, res) => {
       where: { id: canceledReservation.spotId },
       data: { available: true },
     });
-    res.status(201).json({ message: "Reservation has been canceled", status: 201 });
+    res.status(200).json({ message: "Reservation has been canceled", status: 200 });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Something is broken", status: 500 });
@@ -96,7 +90,7 @@ const listReservedParkingSpots = async (req, res) => {
     res.status(200).json({ data: reservations, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something is broken", status: 500 });
+    res.status(500).json({ message: "Something is broken", status: 500, error });
   }
 };
 
@@ -120,7 +114,7 @@ const verifyReservation = async (req, res) => {
 
       await prisma.parkingSpot.update({
         where: { id: Number(updatedReservation.spotId) },
-        data: { available: true, dateTime: reservation.endTime },
+        data: { available: false, dateTime: reservation.endTime },
       });
 
       res.status(200).json({ data: updatedReservation, message: "Reservation approved", status: 200 });
@@ -139,7 +133,7 @@ const verifyReservation = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something is broken", status: 500 });
+    res.status(500).json({ message: "Something is broken", status: 500, error });
   }
 };
 
