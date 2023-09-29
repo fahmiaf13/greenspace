@@ -112,17 +112,31 @@ const verifyReservation = async (req, res) => {
       return res.status(404).json({ message: "Reservation not found or already have been verified." });
     }
 
-    const updatedReservation = await prisma.reservation.update({
-      where: { id: Number(reservationId) },
-      data: { status: status, officerId: officerId },
-    });
+    if (status === "APPROVE") {
+      const updatedReservation = await prisma.reservation.update({
+        where: { id: Number(reservationId) },
+        data: { status: status, officerId: officerId },
+      });
 
-    await prisma.parkingSpot.update({
-      where: { id: Number(updatedReservation.spotId) },
-      data: { available: true, dateTime: reservation.endTime },
-    });
+      await prisma.parkingSpot.update({
+        where: { id: Number(updatedReservation.spotId) },
+        data: { available: true, dateTime: reservation.endTime },
+      });
 
-    res.json({ data: updatedReservation, message: "Sucessfully verified" });
+      res.json({ data: updatedReservation, message: "Sucessfully verified" });
+    } else if (status === "REJECT") {
+      const updatedReservation = await prisma.reservation.update({
+        where: { id: Number(reservationId) },
+        data: { status: status, officerId: officerId },
+      });
+
+      await prisma.parkingSpot.update({
+        where: { id: Number(updatedReservation.spotId) },
+        data: { available: true, dateTime: null },
+      });
+
+      res.json({ data: updatedReservation, message: "Sucessfully verified" });
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Something is broken" });
