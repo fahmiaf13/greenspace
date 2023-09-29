@@ -9,7 +9,6 @@ const route = useRoute();
 const officerDetail = ref<User | null>(null);
 const reservationList = ref<Reservation[]>([]);
 const toast = useToast();
-const config = useRuntimeConfig();
 
 const loading = reactive({
   button: false,
@@ -17,7 +16,7 @@ const loading = reactive({
 
 const fetchDetailOfficer = async () => {
   try {
-    const response: Response<Officer> = await $fetch(`${config.public.NuxtPublicEndpoint}/officers/officer/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<Officer> = await $fetch(`${import.meta.env.VITE_BASE_ENDPOINT}/officers/officer/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
     officerDetail.value = response.data;
   } catch (error) {
     console.log(error);
@@ -26,7 +25,7 @@ const fetchDetailOfficer = async () => {
 
 const fetchListReservations = async () => {
   try {
-    const response: Response<Reservation[]> = await $fetch(`${config.public.NuxtPublicEndpoint}/reserve/list-reservation`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<Reservation[]> = await $fetch(`${import.meta.env.VITE_BASE_ENDPOINT}/reserve/list-reservation`, { method: "GET", withCredentials: true, credentials: "include" });
     reservationList.value = response.data;
   } catch (error) {
     console.log(error);
@@ -41,7 +40,7 @@ const reservationHandler = async (action: string, id: Number) => {
     officerId: route.params.id,
   };
   try {
-    const response = await $fetch(`${config.public.NuxtPublicEndpoint}/reserve/verify-reservation`, { method: "PUT", body: payload, withCredentials: true, credentials: "include" });
+    const response = await $fetch(`${import.meta.env.VITE_BASE_ENDPOINT}/reserve/verify-reservation`, { method: "PUT", body: payload, withCredentials: true, credentials: "include" });
     return response;
   } catch (error: any) {
     toast.add({ title: "Login Failed", description: error.data.message, color: "red" });

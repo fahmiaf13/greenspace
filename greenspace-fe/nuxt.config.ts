@@ -14,11 +14,7 @@ export default defineNuxtConfig({
       title: "Greenspace",
     },
   },
-  runtimeConfig: {
-    public: {
-      NuxtPublicEndpoint: process.env.NUXT_PUBLIC_ENDPOINT,
-    },
-  },
+
   googleFonts: {
     families: {
       "Red+Hat+Text": {
