@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// definePageMeta({
-//   middleware: "officer",
-// });
+definePageMeta({
+  middleware: "officer",
+});
 import { Reservation, Response, User, Officer } from "~/types";
 import { capital } from "case";
 
@@ -11,7 +11,7 @@ const reservationList = ref<Reservation[]>([]);
 
 const fetchDetailOfficer = async () => {
   try {
-    const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/officers/officer/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<Officer> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/officers/officer/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
     officerDetail.value = response.data;
   } catch (error) {
     console.log(error);

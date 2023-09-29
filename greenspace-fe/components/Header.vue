@@ -4,11 +4,12 @@ import { capital } from "case";
 
 const authStore = useAuthStore();
 const router = useRouter();
+const profileUrl = ref<string>("");
 
 const items = [
   [
     {
-      label: authStore?.user?.email ?? "",
+      label: authStore?.member?.email ?? "",
       slot: "account",
       disabled: true,
     },
@@ -19,7 +20,7 @@ const items = [
       label: "Profile",
       icon: "i-heroicons-user",
       click: () => {
-        router.push(`/user/${authStore?.user?.id}`);
+        router.push(`/user/${authStore?.member?.id}`);
       },
     },
   ],
@@ -28,7 +29,7 @@ const items = [
       label: "Reservation",
       icon: "i-heroicons-book-open",
       click: () => {
-        router.push(`/officer/${authStore?.user?.id}`);
+        router.push(`/officer/${authStore?.member?.id}`);
       },
     },
     {
@@ -44,10 +45,15 @@ const items = [
     {
       label: "Sign out",
       icon: "i-heroicons-arrow-left-on-rectangle",
-      click: () => authStore.logout(),
+      click: () => handleLogout(),
     },
   ],
 ];
+
+const handleLogout = () => {
+  authStore.logout();
+  window.location.reload();
+};
 
 onMounted(() => {
   useAuthStore();
@@ -70,8 +76,8 @@ onMounted(() => {
         <UDropdown :items="items" :ui="{ item: { disabled: 'cursor-text select-text' } }" :popper="{ placement: 'bottom-start' }">
           <div class="flex items-center gap-3">
             <div class="flex flex-col justify-center text-end">
-              <div class="font-extrabold">{{ authStore.user?.username }}</div>
-              <div class="font-light">{{ authStore.user?.role }}</div>
+              <div class="font-extrabold">{{ authStore.member?.username }}</div>
+              <div class="font-light">{{ authStore.member?.role }}</div>
             </div>
             <UAvatar src="https://www.svgrepo.com/show/5125/avatar.svg" size="lg" />
           </div>

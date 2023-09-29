@@ -4,7 +4,7 @@ const verifyRole = (req, res, next) => {
   if (authCookie) {
     try {
       const authData = JSON.parse(authCookie);
-      const role = authData.user.role;
+      const role = authData.member.role;
       if (role === "USER") {
         next();
       } else if (role === "OFFICER") {
@@ -26,7 +26,7 @@ const verifyOfficer = (req, res, next) => {
   if (authCookie) {
     try {
       const authData = JSON.parse(authCookie);
-      const role = authData.user.role;
+      const role = authData.member.role;
       if (role === "OFFICER") {
         next();
       } else {
@@ -46,7 +46,7 @@ const verifyUser = (req, res, next) => {
   if (authCookie) {
     try {
       const authData = JSON.parse(authCookie);
-      const role = authData.user.role;
+      const role = authData.member.role;
       if (role === "USER") {
         next();
       } else {

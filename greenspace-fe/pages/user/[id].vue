@@ -11,7 +11,7 @@ const detailUser = ref<User | null>(null);
 
 const fetchDetailUser = async () => {
   try {
-    const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/users/user/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/users/user/${route?.params?.id}`, { method: "GET", withCredentials: true, credentials: "include" });
     detailUser.value = response?.data;
   } catch (error) {
     console.log(error);

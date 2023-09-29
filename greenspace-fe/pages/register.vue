@@ -5,7 +5,7 @@ definePageMeta({
 
 import { object, string, InferType, array } from "yup";
 import type { FormSubmitEvent } from "@nuxt/ui/dist/runtime/types";
-import { Response, User } from "~/types";
+import { Response, User, Officer } from "~/types";
 interface IFormRegister {
   username: string;
   password: string;
@@ -39,7 +39,7 @@ const state = ref<IFormRegister>({
 async function submit(event: FormSubmitEvent<Schema>) {
   loading.button = true;
   try {
-    const response: Response<User> = await $fetch("http://localhost:3001/auth/register", { method: "POST", body: event.data });
+    const response: Response<User | Officer> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/register`, { method: "POST", body: event.data });
     if (response.status === 201) {
       router.push("/login");
     }

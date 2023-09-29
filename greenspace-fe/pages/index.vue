@@ -47,10 +47,6 @@ const fetchListParkingSpot = async () => {
 onMounted(() => {
   fetchListParkingSpot();
 });
-
-const handleReservation = (id: string) => {
-  router.push({ path: `/reservation/${id}` });
-};
 </script>
 
 <template>
@@ -66,7 +62,13 @@ const handleReservation = (id: string) => {
       <div class="w-1/2 flex flex-col items-center gap-5 justify-center">
         <UTable :loading="loading.table ? true : false" :loading-state="{ icon: 'i-heroicons-arrow-path-20-solid', label: 'Loading...' }" class="bg-white rounded-xl p-3 w-full" :rows="rows" :columns="columns">
           <template #actions-data="{ row }">
-            <UButton :variant="!row.available ? 'outline' : 'solid'" :disabled="!row.available ? true : false" :color="!row.available ? 'red' : 'green'" @click="handleReservation(row.id)">{{ !row.available ? "Booked" : "Book" }}</UButton>
+            <button
+              @click="router.push({ path: `reservation/${row.id}` })"
+              :disabled="row.available ? false : true"
+              :class="`${row.available ? 'bg-green-500' : ' bg-red-500 disabled:bg-red-500/80 cursor-not-allowed'} text-white py-1 px-3 rounded-md`"
+            >
+              {{ row.available ? "Book" : "Booked" }}
+            </button>
           </template>
         </UTable>
         <UPagination v-model="page" :page-count="pageCount" :total="listParkingSpot.length" />

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: "user",
+});
 import VueDatePicker from "@vuepic/vue-datepicker";
 import "@vuepic/vue-datepicker/dist/main.css";
 import { useAuthStore } from "~/store/authStore";
@@ -16,6 +19,10 @@ interface Payload {
   endTime: Date;
 }
 
+const handleDate = (modelData: Date) => {
+  date.value = modelData;
+};
+
 const fetchDetailParkingSpot = async () => {
   try {
     const response: Response<ParkingSpot> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/parking/spot/${route.params.id}`, { method: "GET" });
@@ -25,14 +32,13 @@ const fetchDetailParkingSpot = async () => {
   }
 };
 
-const payload: Payload = {
-  spotId: Number(route?.params?.id),
-  userId: authStore?.user?.id ?? "",
-  startTime: new Date(),
-  endTime: date.value,
-};
-
 const submitReservation = async () => {
+  const payload: Payload = {
+    spotId: Number(route?.params?.id),
+    userId: authStore?.member?.id ?? "",
+    startTime: new Date(),
+    endTime: date.value,
+  };
   try {
     const response = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/reservation`, { method: "POST", body: payload });
     console.log(response);
@@ -55,7 +61,7 @@ onMounted(() => {
           <div class="font-semibold text-sm">Location</div>
           <div>{{ detailParkingSpot?.location }}</div>
           <UFormGroup label="Reserve Date">
-            <VueDatePicker v-model="date"></VueDatePicker>
+            <VueDatePicker :model-value="date" @update:model-value="handleDate"></VueDatePicker>
           </UFormGroup>
           <UButton block @click="submitReservation" class="py-2">Pay By Cash</UButton>
         </div>

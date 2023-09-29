@@ -54,10 +54,10 @@ const submitUserLogin = async (event: FormSubmitEvent<Schema>) => {
 
     window.location.reload();
     if (response.status === 200) {
-      toast.add({ title: "Login Success", description: response.msg, color: "green" });
+      toast.add({ title: "Login Success", description: response.message, color: "green" });
       router.push("/");
     } else {
-      toast.add({ title: "Login Failed", description: response.msg, color: "red" });
+      toast.add({ title: "Login Failed", description: response.message, color: "red" });
     }
   } catch (error) {
     toast.add({ title: "Login Failed", description: "Login failed, try later", color: "red" });
@@ -73,10 +73,10 @@ const submitOfficerLogin = async (event: FormSubmitEvent<Schema>) => {
   try {
     const response = await authStore.login(payload);
     if (response.status === 200) {
-      toast.add({ title: "Login Success", description: response.msg, color: "green" });
+      toast.add({ title: "Login Success", description: response.message, color: "green" });
       router.push("/");
     } else {
-      toast.add({ title: "Login Failed", description: response.msg, color: "red" });
+      toast.add({ title: "Login Failed", description: response.message, color: "red" });
     }
   } catch (error) {
     toast.add({ title: "Login Failed", description: "Login failed, try later", color: "red" });

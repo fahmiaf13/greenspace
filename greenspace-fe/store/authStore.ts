@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
-import { User, Response } from "~/types";
+import { User, Response, Officer } from "~/types";
 
 export const useAuthStore = defineStore({
   id: "auth",
   state: () => ({
     token: null as string | null | undefined,
-    user: null as User | null,
+    member: null as User | Officer | null,
     message: null as string | null,
   }),
   actions: {
@@ -14,7 +14,7 @@ export const useAuthStore = defineStore({
         try {
           const response: Response<User> = await $fetch("http://localhost:3001/auth/login/user", { method: "POST", body: payload });
           this.token = response.token;
-          this.user = response?.data as User;
+          this.member = response?.data as User;
           return response;
         } catch (error: any) {
           return error;
@@ -23,7 +23,7 @@ export const useAuthStore = defineStore({
         try {
           const response: Response<User> = await $fetch("http://localhost:3001/auth/login/officer", { method: "POST", body: payload });
           this.token = response.token;
-          this.user = response?.data as User;
+          this.member = response?.data as Officer;
           return response;
         } catch (error: any) {
           return error;
@@ -36,7 +36,7 @@ export const useAuthStore = defineStore({
       const auth = useCookie("auth");
       auth.value = null;
 
-      this.user = null;
+      this.member = null;
       this.token = null;
     },
   },
