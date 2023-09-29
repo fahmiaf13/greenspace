@@ -11,7 +11,7 @@ export const useAuthStore = defineStore({
     async login(payload: { identifier: string; password: string; role: string }) {
       if (payload.role === "USER") {
         try {
-          const response: Response<User> = await $fetch(`http://localhost:3001/auth/login/user`, { method: "POST", body: payload });
+          const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/login/user`, { method: "POST", body: payload });
           this.token = response.token;
           this.member = response?.data as User;
           return response;

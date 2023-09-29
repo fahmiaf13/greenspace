@@ -35,9 +35,7 @@ const columns = [
 const fetchListParkingSpot = async () => {
   loading.table = true;
   try {
-    const response: Response<ParkingSpot[]> = await $fetch(`http://localhost:3001/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
-    // const response: Response<ParkingSpot[]> = await $fetch(`https://greenspace-be.vercel.app/parking/spot`, { method: "GET" });
-
+    const response: Response<ParkingSpot[]> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
     listParkingSpot.value = response?.data;
   } catch (error) {
     console.error(error);
