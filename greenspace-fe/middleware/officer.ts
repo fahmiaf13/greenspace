@@ -6,6 +6,6 @@ export default defineNuxtRouteMiddleware(async () => {
   const token = authStore?.token;
 
   if (isOfficer !== "OFFICER" && !token) {
-    return abortNavigation();
+    return navigateTo("/");
   }
 });
