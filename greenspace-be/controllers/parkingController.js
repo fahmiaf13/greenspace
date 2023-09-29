@@ -4,7 +4,6 @@ const { format } = require("date-fns");
 const listParkingSpot = async (req, res) => {
   try {
     const response = await prisma.parkingSpot.findMany();
-    console.log(response);
     res.status(200).json({
       data: response
         .sort((a, b) => a.id - b.id)
@@ -13,10 +12,11 @@ const listParkingSpot = async (req, res) => {
           dateTime: item.dateTime ? format(item.dateTime, "dd-mm-yyyy") : "-",
         })),
       message: "Success",
+      status: 200,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something is broken" });
+    res.status(500).json({ message: "Something is broken", status: 500 });
   }
 };
 
@@ -31,13 +31,13 @@ const detailParkingSpot = async (req, res) => {
     });
 
     if (!parkingSpot) {
-      return res.status(404).json({ message: "Parking spot not found" });
+      return res.status(404).json({ message: "Parking spot not found", status: 404 });
     }
 
-    res.json({ data: parkingSpot, message: "Success" });
+    res.status(200).json({ data: parkingSpot, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something is broken" });
+    res.status(500).json({ message: "Something is broken", status: 500 });
   }
 };
 

@@ -23,7 +23,7 @@ const userProfile = async (req, res) => {
     });
 
     if (!userDetailProfile) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "User not found", status: 404 });
     }
 
     const formattedReservations = userDetailProfile.reservations.map((reservation) => ({
@@ -46,10 +46,10 @@ const userProfile = async (req, res) => {
       reservations: formattedReservations,
     };
 
-    res.json({ data: resUserProfile, message: "Success" });
+    res.statu(200).json({ data: resUserProfile, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something is broken" });
+    res.status(500).json({ error: "Something is broken", status: 500 });
   }
 };
 

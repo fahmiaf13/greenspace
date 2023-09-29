@@ -20,7 +20,7 @@ const reserveParkingSpot = async (req, res) => {
       });
 
       if (!isAvailable) {
-        return res.status(400).json({ message: "Parking spot has been filled" });
+        return res.status(400).json({ message: "Parking spot has been filled", status: 400 });
       }
 
       const reservation = await prisma.reservation.create({
@@ -38,13 +38,13 @@ const reserveParkingSpot = async (req, res) => {
         data: { available: false, dateTime: parsedEndTime },
       });
 
-      res.status(201).json({ data: reservation, message: "Reservation successfully added" });
+      res.status(201).json({ data: reservation, message: "Reservation successfully added", status: 200 });
     } else {
-      res.status(404).json({ error: "Invalid date. Make sure the date is not before now and not later than 7 days from now." });
+      res.status(404).json({ error: "Invalid date. Make sure the date is not before now and not later than 7 days from now.", status: 404 });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something is broken" });
+    res.status(500).json({ message: "Something is broken", status: 500 });
   }
 };
 
@@ -59,11 +59,11 @@ const cancelReservation = async (req, res) => {
     });
 
     if (!reservation) {
-      return res.status(404).json({ error: "Reservation not found" });
+      return res.status(404).json({ error: "Reservation not found", status: 404 });
     }
 
     if (reservation.status !== "PENDING") {
-      return res.status(400).json({ error: "Reservation already been canceled before" });
+      return res.status(400).json({ error: "Reservation already been canceled before", status: 400 });
     }
 
     const canceledReservation = await prisma.reservation.update({
@@ -75,10 +75,10 @@ const cancelReservation = async (req, res) => {
       where: { id: canceledReservation.spotId },
       data: { available: true },
     });
-    res.status(201).json({ message: "Reservation has been canceled" });
+    res.status(201).json({ message: "Reservation has been canceled", status: 201 });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Something is broken" });
+    res.status(500).json({ message: "Something is broken", status: 500 });
   }
 };
 
@@ -93,10 +93,10 @@ const listReservedParkingSpots = async (req, res) => {
         },
       },
     });
-    res.json({ data: reservations, message: "Success" });
+    res.status(200).json({ data: reservations, message: "Success", status: 200 });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Something is broken" });
+    res.status(500).json({ error: "Something is broken", status: 500 });
   }
 };
 
@@ -109,7 +109,7 @@ const verifyReservation = async (req, res) => {
     });
 
     if (!reservation || reservation.status !== "PENDING") {
-      return res.status(404).json({ message: "Reservation not found or already have been verified." });
+      return res.status(404).json({ message: "Reservation not found or already have been verified.", status: 404 });
     }
 
     if (status === "APPROVE") {
@@ -123,7 +123,7 @@ const verifyReservation = async (req, res) => {
         data: { available: true, dateTime: reservation.endTime },
       });
 
-      res.json({ data: updatedReservation, message: "Sucessfully verified" });
+      res.status(200).json({ data: updatedReservation, message: "Reservation approved", status: 200 });
     } else if (status === "REJECT") {
       const updatedReservation = await prisma.reservation.update({
         where: { id: Number(reservationId) },
@@ -135,11 +135,11 @@ const verifyReservation = async (req, res) => {
         data: { available: true, dateTime: null },
       });
 
-      res.json({ data: updatedReservation, message: "Sucessfully verified" });
+      res.status(200).json({ data: updatedReservation, message: "Reservation rejected", status: 200 });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Something is broken" });
+    res.status(500).json({ message: "Something is broken", status: 500 });
   }
 };
 
