@@ -18,7 +18,7 @@ const fetchDetailUser = async () => {
   }
 };
 
-const cancelReservation = async (id: string) => {
+const cancelReservation = async (id: number) => {
   try {
     const response: Response<Reservation> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/reservation/${id}`, { method: "DELETE", withCredentials: true, credentials: "include" });
     return response;

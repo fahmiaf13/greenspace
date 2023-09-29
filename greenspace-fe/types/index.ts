@@ -20,6 +20,7 @@ export type Reservation = {
   userId: number;
   spotId: number;
   startTime: Date;
+  location?: string;
   endTime: Date;
   status: string;
   createdAt: Date;
