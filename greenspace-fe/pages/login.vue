@@ -59,8 +59,8 @@ const submitUserLogin = async (event: FormSubmitEvent<Schema>) => {
     } else {
       toast.add({ title: "Login Failed", description: response.message, color: "red" });
     }
-  } catch (error) {
-    toast.add({ title: "Login Failed", description: "Login failed, try later", color: "red" });
+  } catch (error: any) {
+    toast.add({ title: "Login Failed", description: error.data.message, color: "red" });
   } finally {
     loading.button = false;
   }
@@ -78,8 +78,8 @@ const submitOfficerLogin = async (event: FormSubmitEvent<Schema>) => {
     } else {
       toast.add({ title: "Login Failed", description: response.message, color: "red" });
     }
-  } catch (error) {
-    toast.add({ title: "Login Failed", description: "Login failed, try later", color: "red" });
+  } catch (error: any) {
+    toast.add({ title: "Login Failed", description: error.data.message, color: "red" });
   } finally {
     loading.button = false;
   }

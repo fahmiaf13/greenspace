@@ -6,13 +6,12 @@ export const useAuthStore = defineStore({
   state: () => ({
     token: null as string | null | undefined,
     member: null as User | Officer | null,
-    message: null as string | null,
   }),
   actions: {
     async login(payload: { identifier: string; password: string; role: string }) {
       if (payload.role === "USER") {
         try {
-          const response: Response<User> = await $fetch("http://localhost:3001/auth/login/user", { method: "POST", body: payload });
+          const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/login/user`, { method: "POST", body: payload, withCredentials: true, credentials: "include" });
           this.token = response.token;
           this.member = response?.data as User;
           return response;
@@ -21,7 +20,7 @@ export const useAuthStore = defineStore({
         }
       } else if (payload.role === "OFFICER") {
         try {
-          const response: Response<User> = await $fetch("http://localhost:3001/auth/login/officer", { method: "POST", body: payload });
+          const response: Response<Officer> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/login/officer`, { method: "POST", body: payload, withCredentials: true, credentials: "include" });
           this.token = response.token;
           this.member = response?.data as Officer;
           return response;

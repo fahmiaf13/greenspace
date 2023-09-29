@@ -4,41 +4,15 @@ import { capital } from "case";
 
 const authStore = useAuthStore();
 const router = useRouter();
-const profileUrl = ref<string>("");
 
 const items = [
-  [
-    {
-      label: authStore?.member?.email ?? "",
-      slot: "account",
-      disabled: true,
-    },
-  ],
-
-  [
-    {
-      label: "Profile",
-      icon: "i-heroicons-user",
-      click: () => {
-        router.push(`/user/${authStore?.member?.id}`);
-      },
-    },
-  ],
   [
     {
       label: "Reservation",
       icon: "i-heroicons-book-open",
       click: () => {
-        router.push(`/officer/${authStore?.member?.id}`);
+        router.push(`${authStore?.member?.role === "USER" ? `/user/${authStore?.member?.id}` : authStore?.member?.role === "OFFICER" ? `/officer/${authStore?.member?.id}` : "/"}`);
       },
-    },
-    {
-      label: "Changelog",
-      icon: "i-heroicons-megaphone",
-    },
-    {
-      label: "Status",
-      icon: "i-heroicons-signal",
     },
   ],
   [

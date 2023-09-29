@@ -13,6 +13,7 @@ interface IFormRegister {
   role: string;
 }
 
+const toast = useToast();
 const router = useRouter();
 const loading = reactive({
   button: false,
@@ -43,8 +44,8 @@ async function submit(event: FormSubmitEvent<Schema>) {
     if (response.status === 201) {
       router.push("/login");
     }
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    toast.add({ title: "Login Failed", description: error.data.message, color: "red" });
   } finally {
     loading.button = false;
   }

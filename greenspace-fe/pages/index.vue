@@ -65,7 +65,9 @@ onMounted(() => {
             <button
               @click="router.push({ path: `reservation/${row.id}` })"
               :disabled="row.available ? false : true"
-              :class="`${row.available ? 'bg-green-500' : ' bg-red-500 disabled:bg-red-500/80 cursor-not-allowed'} text-white py-1 px-3 rounded-md`"
+              :class="`hover:bg-transparent duration-200  ${
+                row.available ? 'bg-green-500 border border-green-500 hover:text-green-500 hover:cursor-pointer' : ' bg-red-500 disabled:bg-red-500/80 cursor-not-allowed hover:cursor-not-allowed'
+              } text-white py-1 px-3 rounded-md`"
             >
               {{ row.available ? "Book" : "Booked" }}
             </button>

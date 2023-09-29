@@ -8,6 +8,10 @@ import { capital } from "case";
 const route = useRoute();
 const officerDetail = ref<User | null>(null);
 const reservationList = ref<Reservation[]>([]);
+const toast = useToast();
+const loading = reactive({
+  button: false,
+});
 
 const fetchDetailOfficer = async () => {
   try {
@@ -20,7 +24,7 @@ const fetchDetailOfficer = async () => {
 
 const fetchListReservations = async () => {
   try {
-    const response: Response<Reservation[]> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/list-reservation`, { method: "GET" });
+    const response: Response<Reservation[]> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/list-reservation`, { method: "GET", withCredentials: true, credentials: "include" });
     reservationList.value = response.data;
   } catch (error) {
     console.log(error);
@@ -28,23 +32,21 @@ const fetchListReservations = async () => {
 };
 
 const reservationHandler = async (action: string, id: Number) => {
+  loading.button = true;
   const payload = {
     status: action,
     reservationId: id,
     officerId: route.params.id,
   };
   try {
-    const response = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/verify-reservation`, { method: "PUT", body: payload });
+    const response = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/verify-reservation`, { method: "PUT", body: payload, withCredentials: true, credentials: "include" });
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    toast.add({ title: "Login Failed", description: error.data.message, color: "red" });
+  } finally {
+    loading.button = false;
   }
 };
-
-watchEffect(() => {
-  console.log(officerDetail.value);
-  console.log(reservationList.value);
-});
 
 onMounted(() => {
   fetchDetailOfficer();
@@ -65,10 +67,10 @@ onMounted(() => {
           <div class="my-5 text-center text-green-500 font-extrabold">{{ reservation?.ParkingSpot?.location }}</div>
           <div class="w-full flex gap-1">
             <div class="w-1/2">
-              <UButton @click="reservationHandler('REJECT', reservation?.id)" color="red" block>Reject</UButton>
+              <UButton :loading="loading.button" @click="reservationHandler('REJECT', reservation?.id)" color="red" block>Reject</UButton>
             </div>
             <div class="w-1/2">
-              <UButton @click="reservationHandler('APPROVE', reservation?.id)" block>Approve</UButton>
+              <UButton :loading="loading.button" @click="reservationHandler('APPROVE', reservation?.id)" block>Approve</UButton>
             </div>
           </div>
         </UCard>

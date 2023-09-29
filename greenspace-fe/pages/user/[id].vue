@@ -7,7 +7,11 @@ import { Response, User, Reservation } from "@/types";
 import { capital } from "case";
 
 const route = useRoute();
+const toast = useToast();
 const detailUser = ref<User | null>(null);
+const loading = reactive<{ button: boolean }>({
+  button: false,
+});
 
 const fetchDetailUser = async () => {
   try {
@@ -19,17 +23,23 @@ const fetchDetailUser = async () => {
 };
 
 const cancelReservation = async (id: number) => {
+  loading.button = true;
+  console.log("wwa");
   try {
     const response: Response<Reservation> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/reservation/${id}`, { method: "DELETE", withCredentials: true, credentials: "include" });
+    if (response.status === 200) {
+      toast.add({ title: "Success", description: response.message, color: "green" });
+    } else {
+      toast.add({ title: "Error", description: response.message, color: "red" });
+    }
     return response;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log("error", error);
+    toast.add({ title: "Error", description: error.data.message, color: "red" });
+  } finally {
+    loading.button = false;
   }
 };
-
-watchEffect(() => {
-  console.log(detailUser.value);
-});
 
 onMounted(() => {
   fetchDetailUser();
@@ -44,10 +54,12 @@ onMounted(() => {
         <UCard>
           <div class="flex justify-between">
             <div class="font-bold">Status:</div>
-            <UBadge :color="reservation?.status === 'APPROVE' ? 'green' : reservation?.status === 'PENDING' ? 'yellow' : reservation?.status === 'REJECT' ? 'red' : 'black'">{{ capital(reservation?.status) }}</UBadge>
+            <UBadge :color="reservation?.status === 'APPROVE' ? 'green' : reservation?.status === 'PENDING' ? 'yellow' : reservation?.status === 'REJECT' || 'CANCEL' ? 'red' : 'black'">{{ capital(reservation?.status) }}</UBadge>
           </div>
           <div class="my-5 text-center text-green-500 font-extrabold">{{ reservation.location }}</div>
-          <UButton @click="cancelReservation(reservation?.id)">Cancel Reservations</UButton>
+          <UButton :loading="loading.button" :disabled="reservation.status === 'PENDING' ? false : true" :variant="reservation.status === 'PENDING' ? 'solid' : 'outline'" @click="cancelReservation(reservation?.id)"
+            >Cancel Reservations</UButton
+          >
         </UCard>
       </div>
     </div>

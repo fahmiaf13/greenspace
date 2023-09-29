@@ -40,4 +40,5 @@ export interface Response<ctx> {
   data: ctx;
   token?: string;
   status?: number;
+  message?: string;
 }
