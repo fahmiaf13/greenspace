@@ -3,7 +3,6 @@ const cors = require("cors");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
 const { PrismaClient } = require("./prisma/generated/client");
 const router = require("./routers");
 
@@ -14,13 +13,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(
-  session({
-    secret: "secret-key",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+
 app.use(
   cors({
     credentials: true,
