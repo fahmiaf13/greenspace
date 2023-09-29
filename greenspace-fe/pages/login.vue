@@ -52,7 +52,7 @@ const submitUserLogin = async (event: FormSubmitEvent<Schema>) => {
   try {
     const response = await authStore.login(payload);
 
-    window.location.reload();
+    // window.location.reload();
     if (response.status === 200) {
       toast.add({ title: "Login Success", description: response.message, color: "green" });
       router.push("/");
