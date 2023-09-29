@@ -8,6 +8,7 @@ import { useAuthStore } from "~/store/authStore";
 import { Response, ParkingSpot, User, Reservation } from "~/types";
 
 const authStore = useAuthStore();
+const config = useRuntimeConfig();
 const route = useRoute();
 const date = ref(new Date());
 const toast = useToast();
@@ -29,7 +30,7 @@ const handleDate = (modelData: Date) => {
 
 const fetchDetailParkingSpot = async () => {
   try {
-    const response: Response<ParkingSpot> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/parking/spot/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<ParkingSpot> = await $fetch(`${config.public.NuxtPublicEndpoint}/parking/spot/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
     detailParkingSpot.value = response.data;
   } catch (error) {
     console.log(error);
@@ -45,7 +46,7 @@ const submitReservation = async () => {
     endTime: date.value,
   };
   try {
-    const response: Response<Reservation> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/reserve/reservation`, { method: "POST", body: payload, withCredentials: true, credentials: "include" });
+    const response: Response<Reservation> = await $fetch(`${config.public.NuxtPublicEndpoint}/reserve/reservation`, { method: "POST", body: payload, withCredentials: true, credentials: "include" });
     if (response.status === 200) {
       toast.add({ title: "Success", description: response.message, color: "green" });
     } else {

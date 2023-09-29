@@ -14,6 +14,8 @@ interface IFormRegister {
 }
 
 const toast = useToast();
+const config = useRuntimeConfig();
+
 const router = useRouter();
 const loading = reactive({
   button: false,
@@ -40,7 +42,7 @@ const state = ref<IFormRegister>({
 async function submit(event: FormSubmitEvent<Schema>) {
   loading.button = true;
   try {
-    const response: Response<User | Officer> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/register`, { method: "POST", body: event.data });
+    const response: Response<User | Officer> = await $fetch(`${config.public.NuxtPublicEndpoint}/auth/register`, { method: "POST", body: event.data });
     if (response.status === 201) {
       router.push("/login");
     }

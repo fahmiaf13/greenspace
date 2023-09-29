@@ -5,6 +5,7 @@ const pageCount = 5;
 const listParkingSpot = ref<ParkingSpot[]>([]);
 
 const router = useRouter();
+const config = useRuntimeConfig();
 const loading = reactive({
   table: false,
 });
@@ -35,7 +36,7 @@ const columns = [
 const fetchListParkingSpot = async () => {
   loading.table = true;
   try {
-    const response: Response<ParkingSpot[]> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<ParkingSpot[]> = await $fetch(`${config.public.NuxtPublicEndpoint}/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
     listParkingSpot.value = response?.data;
   } catch (error) {
     console.error(error);

@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import { User, Response, Officer } from "~/types";
+const config = useRuntimeConfig();
 
 export const useAuthStore = defineStore({
   id: "auth",
@@ -11,7 +12,7 @@ export const useAuthStore = defineStore({
     async login(payload: { identifier: string; password: string; role: string }) {
       if (payload.role === "USER") {
         try {
-          const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/login/user`, { method: "POST", body: payload });
+          const response: Response<User> = await $fetch(`${config.public.NuxtPublicEndpoint}/auth/login/user`, { method: "POST", body: payload });
           this.token = response.token;
           this.member = response?.data as User;
           return response;
@@ -20,7 +21,7 @@ export const useAuthStore = defineStore({
         }
       } else if (payload.role === "OFFICER") {
         try {
-          const response: Response<Officer> = await $fetch(`${import.meta.env.VITE_BASE_DEV}/auth/login/officer`, { method: "POST", body: payload });
+          const response: Response<Officer> = await $fetch(`${config.public.NuxtPublicEndpoint}/auth/login/officer`, { method: "POST", body: payload });
           this.token = response.token;
           this.member = response?.data as Officer;
           return response;
