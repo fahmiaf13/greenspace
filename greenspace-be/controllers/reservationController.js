@@ -11,14 +11,15 @@ const reserveParkingSpot = async (req, res) => {
 
   try {
     if (!isBefore(parsedEndTime, parsedStartTime) && !isAfter(parsedEndTime, maxReservationDate)) {
-      const isAvailable = await prisma.parkingSpot.findFirst({
+      const isAvailable = await prisma.reservation.findFirst({
         where: {
-          id: spotId,
-          available: true,
+          spotId: spotId,
+          userId: userId,
+          status: "PENDING",
         },
       });
 
-      if (!isAvailable) {
+      if (isAvailable) {
         return res.status(400).json({ message: "Parking spot has been filled", status: 400 });
       }
 
