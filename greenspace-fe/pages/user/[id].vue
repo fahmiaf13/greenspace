@@ -5,6 +5,7 @@ definePageMeta({
 
 import { Response, User, Reservation } from "@/types";
 import { capital } from "case";
+const config = useRuntimeConfig();
 
 const route = useRoute();
 const toast = useToast();
@@ -16,7 +17,7 @@ const loading = reactive<{ button: boolean }>({
 
 const fetchDetailUser = async () => {
   try {
-    const response: Response<User> = await $fetch(`${import.meta.env.VITE_BASE_ENDPOINT}/users/user/${route?.params?.id}`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<User> = await $fetch(`${config.baseUrl}/users/user/${route?.params?.id}`, { method: "GET", withCredentials: true, credentials: "include" });
     detailUser.value = response?.data;
   } catch (error) {
     console.log(error);
@@ -27,7 +28,7 @@ const cancelReservation = async (id: number) => {
   loading.button = true;
   console.log("wwa");
   try {
-    const response: Response<Reservation> = await $fetch(`${import.meta.env.VITE_BASE_ENDPOINT}/reserve/reservation/${id}`, { method: "DELETE", withCredentials: true, credentials: "include" });
+    const response: Response<Reservation> = await $fetch(`${config.baseUrl}/reserve/reservation/${id}`, { method: "DELETE", withCredentials: true, credentials: "include" });
     if (response.status === 200) {
       toast.add({ title: "Success", description: response.message, color: "green" });
     } else {
