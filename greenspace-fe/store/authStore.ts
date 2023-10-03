@@ -11,7 +11,7 @@ export const useAuthStore = defineStore({
     async login(payload: { identifier: string; password: string; role: string }) {
       if (payload.role === "USER") {
         try {
-          const response: Response<User> = await $fetch(`${this.$config.baseUrl}/auth/login/user`, { method: "POST", body: payload });
+          const response: Response<User> = await $fetch(`${this.$config.public.baseUrl}/auth/login/user`, { method: "POST", body: payload });
           this.token = response.token;
           this.member = response?.data as User;
           return response;
@@ -20,7 +20,7 @@ export const useAuthStore = defineStore({
         }
       } else if (payload.role === "OFFICER") {
         try {
-          const response: Response<Officer> = await $fetch(`${this.$config.baseUrl}/auth/login/officer`, { method: "POST", body: payload });
+          const response: Response<Officer> = await $fetch(`${this.$config.public.baseUrl}/auth/login/officer`, { method: "POST", body: payload });
           this.token = response.token;
           this.member = response?.data as Officer;
           return response;

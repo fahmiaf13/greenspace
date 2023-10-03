@@ -40,7 +40,7 @@ const state = ref<IFormRegister>({
 async function submit(event: FormSubmitEvent<Schema>) {
   loading.button = true;
   try {
-    const response: Response<User | Officer> = await $fetch(`${config.baseUrl}/auth/register`, { method: "POST", body: event.data });
+    const response: Response<User | Officer> = await $fetch(`${config.public.baseUrl}/auth/register`, { method: "POST", body: event.data });
     if (response.status === 201) {
       router.push("/login");
     }

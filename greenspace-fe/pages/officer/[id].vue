@@ -16,7 +16,7 @@ const loading = reactive({
 
 const fetchDetailOfficer = async () => {
   try {
-    const response: Response<Officer> = await $fetch(`${config.baseUrl}/officers/officer/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<Officer> = await $fetch(`${config.public.baseUrl}/officers/officer/${route.params.id}`, { method: "GET", withCredentials: true, credentials: "include" });
     officerDetail.value = response.data;
   } catch (error) {
     console.log(error);
@@ -25,7 +25,7 @@ const fetchDetailOfficer = async () => {
 
 const fetchListReservations = async () => {
   try {
-    const response: Response<Reservation[]> = await $fetch(`${config.baseUrl}/reserve/list-reservation`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<Reservation[]> = await $fetch(`${config.public.baseUrl}/reserve/list-reservation`, { method: "GET", withCredentials: true, credentials: "include" });
     reservationList.value = response.data;
   } catch (error) {
     console.log(error);
@@ -40,7 +40,7 @@ const reservationHandler = async (action: string, id: Number) => {
     officerId: route.params.id,
   };
   try {
-    const response = await $fetch(`${config.baseUrl}/reserve/verify-reservation`, { method: "PUT", body: payload, withCredentials: true, credentials: "include" });
+    const response = await $fetch(`${config.public.baseUrl}/reserve/verify-reservation`, { method: "PUT", body: payload, withCredentials: true, credentials: "include" });
     return response;
   } catch (error: any) {
     toast.add({ title: "Login Failed", description: error.data.message, color: "red" });
