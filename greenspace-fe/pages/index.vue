@@ -4,6 +4,7 @@ const page = ref(1);
 const pageCount = 5;
 const listParkingSpot = ref<ParkingSpot[]>([]);
 
+const config = useRuntimeConfig();
 const router = useRouter();
 
 const loading = reactive({
@@ -36,7 +37,7 @@ const columns = [
 const fetchListParkingSpot = async () => {
   loading.table = true;
   try {
-    const response: Response<ParkingSpot[]> = await $fetch(`${import.meta.env.VITE_BASE_ENDPOINT}/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<ParkingSpot[]> = await $fetch(`https://greenspace-be.vercel.app/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
     listParkingSpot.value = response?.data;
   } catch (error) {
     console.error(error);

@@ -25,6 +25,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  runtimeConfig: {
+    baseUrl: process.env.NUXT_BASE_ENDPOINT,
+  },
   devServer: {
     port: 3000,
   },
