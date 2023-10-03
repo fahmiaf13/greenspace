@@ -46,7 +46,11 @@ const fetchListParkingSpot = async () => {
   }
 };
 
+watchEffect(() => {
+  // console.log(config.public.baseUrl);
+});
 onMounted(() => {
+  console.log(config.public.baseUrl);
   fetchListParkingSpot();
 });
 </script>
