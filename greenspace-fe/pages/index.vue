@@ -37,7 +37,7 @@ const columns = [
 const fetchListParkingSpot = async () => {
   loading.table = true;
   try {
-    const response: Response<ParkingSpot[]> = await $fetch(`${config.baseUrl}/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
+    const response: Response<ParkingSpot[]> = await $fetch(`${config.public.baseUrl}/parking/spot`, { method: "GET", withCredentials: true, credentials: "include" });
     listParkingSpot.value = response?.data;
   } catch (error) {
     console.error(error);
