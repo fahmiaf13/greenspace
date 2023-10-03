@@ -31,7 +31,7 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   function logout() {
-    // const auth = useCookie("auth");
+    const auth = useCookie("auth");
     auth.value = null;
 
     member.value = null;
