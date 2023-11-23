@@ -92,12 +92,12 @@ const Login = async (req, res) => {
     const user = owner || relawan || admin;
 
     if (!user) {
-      return res.status(401).json({ message: "Incorrect email or password", status: 401 });
+      return res.status(401).json({ message: "Incorrect email", status: 401 });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(401).json({ message: "Incorrect email or password", status: 401 });
+      return res.status(401).json({ message: "Incorrect  password", status: 401 });
     }
     const generatedToken = __generateToken(user);
     res.status(200).json({ data: user, token: generatedToken, message: "Success", status: 200 });
