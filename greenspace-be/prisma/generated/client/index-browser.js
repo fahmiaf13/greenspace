@@ -17,11 +17,11 @@ exports.$Enums = {}
 
 /**
  * Prisma Client JS version: 5.3.1
- * Query Engine version: 61e140623197a131c2a6189271ffee05a7aa9a59
+ * Query Engine version: ac9d7041ed77bcc8a8dbd2ab6616b39013829574
  */
 Prisma.prismaVersion = {
   client: "5.3.1",
-  engine: "61e140623197a131c2a6189271ffee05a7aa9a59"
+  engine: "ac9d7041ed77bcc8a8dbd2ab6616b39013829574"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -107,7 +107,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
+exports.Prisma.OwnerScalarFieldEnum = {
   id: 'id',
   username: 'username',
   password: 'password',
@@ -115,7 +115,7 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
-exports.Prisma.OfficerScalarFieldEnum = {
+exports.Prisma.RelawanScalarFieldEnum = {
   id: 'id',
   username: 'username',
   password: 'password',
@@ -123,23 +123,12 @@ exports.Prisma.OfficerScalarFieldEnum = {
   role: 'role'
 };
 
-exports.Prisma.ParkingSpotScalarFieldEnum = {
+exports.Prisma.AdminScalarFieldEnum = {
   id: 'id',
-  location: 'location',
-  dateTime: 'dateTime',
-  available: 'available'
-};
-
-exports.Prisma.ReservationScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  officerId: 'officerId',
-  spotId: 'spotId',
-  startTime: 'startTime',
-  endTime: 'endTime',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  username: 'username',
+  password: 'password',
+  email: 'email',
+  role: 'role'
 };
 
 exports.Prisma.SortOrder = {
@@ -152,17 +141,11 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 
 exports.Prisma.ModelName = {
-  User: 'User',
-  Officer: 'Officer',
-  ParkingSpot: 'ParkingSpot',
-  Reservation: 'Reservation'
+  Owner: 'Owner',
+  Relawan: 'Relawan',
+  Admin: 'Admin'
 };
 
 /**
