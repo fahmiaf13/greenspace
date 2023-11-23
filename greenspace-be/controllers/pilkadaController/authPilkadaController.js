@@ -94,7 +94,8 @@ const Login = async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Incorrect email", status: 401 });
     }
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    // const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = password === user.password ? true : false;
 
     if (!passwordMatch) {
       return res.status(401).json({ message: "Incorrect  password", status: 401 });
